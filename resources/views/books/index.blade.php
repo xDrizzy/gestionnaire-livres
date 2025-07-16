@@ -26,7 +26,7 @@
                                 @endif
                             </h5>
                             <p class="card-text">
-                                <strong>Auteur :</strong> {{ $book->auteur}} <br>
+                                <strong>Auteur :</strong> {{ $book->author->name}} <br>
                                 <strong>Année :</strong> {{ $book->annee}} <br>
                                 <strong>Statut :</strong> <span class="badge" @if ($book->statut === 'lu') bg-success @elseif ($book->statut === 'en cours') bg-warning @else bg-secondary  
                                 @endif"> {{ $book->statut }}

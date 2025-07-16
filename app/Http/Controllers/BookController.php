@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -15,26 +16,31 @@ class BookController extends Controller
 
     //Methode create et store
     public function create() {
-        return view('books.create');
+        $authors = Author::all() ;
+        //dd($authors) ;
+        
+        // Recupération de la liste des auteurs
+        return view('books.create', compact('authors'));
     }
 
     public function store(Request $request){
-        $request->validate([
+        $validated = $request->validate([
             'titre' => 'required|string|max:255',
-            'auteur' => 'required|string|max:255',
+            'author_id' => 'required',
             'annee' => 'required|integer|min:1000|max:' . date('Y'),
             'statut' => 'required|in:lu,à lire, en cours',
             'note' => 'nullable|string'
         ]);
         
-        Book::create([
-            'titre' => $request->titre,
-            'auteur' => $request->auteur,
+        Book::create( $validated) ;
+/*         Book::create([
+/*             'titre' => $request->titre,
+            'author_id' => $request->author_id,
             'annee' => $request->annee,
             'statut' => $request->statut,
             'favori' => $request->has('favori'),
-            'note' => $request->note,
-        ]);
+            'note' => $request->note, 
+        ]); */
 
         // Redirection
         return redirect()->route('books.index')

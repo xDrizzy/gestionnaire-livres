@@ -24,9 +24,15 @@
 
                     <div class="mb-3">
                         <label for="auteur" class="form-label">Auteur *</label>
-                        <input type="text" class="form-control @error('auteur') is-invalid @enderror" 
-                               id="auteur" name="auteur" value="{{ old('auteur') }}" required>
-                        @error('auteur')
+                        <select name="author_id">
+                            <option value=""> --- Sélectionnez un Auteur ---</option>
+                                @foreach ($authors as $author)
+                                   <option value="{{$author['id']}}">{{$author['name']}}</option>
+                                @endforeach
+
+                        </select>
+
+                        @error('author_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
