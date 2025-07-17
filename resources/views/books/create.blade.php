@@ -10,7 +10,7 @@
                 <h3 class="mb-0">Ajouter un nouveau livre</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('books.store') }}" method="POST">
+                <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="mb-3">
@@ -18,6 +18,14 @@
                         <input type="text" class="form-control @error('titre') is-invalid @enderror" 
                                id="titre" name="titre" value="{{ old('titre') }}" required>
                         @error('titre')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image *</label>
+                        <input type="file" class="form-control is-invalid"name="image">
+                        @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -48,13 +56,15 @@
 
                     <div class="mb-3">
                         <label for="statut" class="form-label">Statut *</label>
-                        <select class="form-select @error('statut') is-invalid @enderror" id="statut" name="statut" required>
+                        <select class="form-select @error('statuts_id') is-invalid @enderror" name="statuts_id" required>
                             <option value="">Choisir un statut</option>
-                            <option value="à lire" {{ old('statut') == 'à lire' ? 'selected' : '' }}>À lire</option>
-                            <option value="en cours" {{ old('statut') == 'en cours' ? 'selected' : '' }}>En cours</option>
-                            <option value="lu" {{ old('statut') == 'lu' ? 'selected' : '' }}>Lu</option>
+                            @foreach ($statuts as $statut )
+                            <option value="{{ $statut['id'] }}"">{{ $statut['state'] }}</option>
+                            @endforeach
+
+
                         </select>
-                        @error('statut')
+                        @error('statuts_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
